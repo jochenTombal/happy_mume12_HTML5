@@ -1,0 +1,77 @@
+p {
+    text-align:center;
+}
+
+/*
+ * Other icons for email and phone-touch
+ * Used for going to sleep and waking up buttons
+*/
+.ui-icon-email {
+	background-image: url(../img/moon_small.png);
+	background-repeat: no-repeat;
+}
+.ui-icon-phone-touch {
+	background-image: url(../img/sun_small.png);
+	background-repeat: no-repeat;
+}
+
+.footer-wrapper {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+}
+
+.viewparameters{
+    text-align: left;
+    font-size: 0.9em;
+}
+
+.centered_layout{
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.center_label {
+    display: block;
+    text-align: center;
+    line-height: 150%;
+    /*font-size: .85em;*/
+}
+
+/* Show these as links when going over them with a cursor*/
+.ui-bar.ui-bar-b, .ui-bar.ui-bar-a {
+    cursor: pointer;
+    vertical-align: middle;
+    text-align: center;
+}
+
+/*
+ * Layout for moodpies and moodvariation
+*/
+.moodpies{
+    width:93%;
+    height:80%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.moodvariation{
+    width:93%;
+    height:80%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+/*Round corners get the results*/
+#gtr_statistics_uibar, #gtr_moodpies_uibar, #gtr_moodvariations_uibar, #gtr_center_uibar, #gtr_search_uibar, #gtr_testpage_uibar,
+#drop_wu, #drop_gts, #drop_results{
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+#selector_startpage {
+    cursor: pointer; /*To view this as link*/
+    
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}

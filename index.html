@@ -1,0 +1,650 @@
+<!doctype html>
+<!--<html lang="en" manifest="cache.appcache">-->
+<html>
+    <head>
+        <title>hAPPy</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+            
+        <!-- Stylesheet -->
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css"/>
+		<link rel="stylesheet" href="css/layout.css"/>
+        
+        <!-- Javascript -->
+		<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+	
+		<!--needed for dragdrop-->
+		<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.min.js"></script>
+		<script src="js/jquery.ui.touch-punch.min.js"></script>
+	
+		<!-- Highcharts -->
+		<script src="js/highcharts.js" type="text/javascript"></script>
+		<script src="js/modules/exporting.js" type="text/javascript"></script>
+	
+		<!-- Mobiscroll -->
+		<link href="css/mobiscroll-2.2.custom.min.css" rel="stylesheet" type="text/css" />
+		<script src="js/mobiscroll-2.2.custom.min.js" type="text/javascript"></script>
+
+		<!-- Code -->
+		<script src="js/flowcontrol.js"></script>
+		<script src="js/storage.js"></script>
+		<script src="js/moodpies.js"></script>
+		<script src="js/moodvariation.js"></script>
+		<script src="js/gettheresults.js"></script>
+		<script src="js/dragdrop.js"></script>
+		<script src="js/stat_functions.js"></script>
+		<script src="js/soc_media.js"></script>
+		<script src="js/search.js"></script>
+		<script src="js/search_functions.js"></script>
+		<script src="js/test_code.js"></script>
+		<script src="js/settings.js"></script>
+		<script src="js/location.js"></script>
+		
+		<script src="http://platform.twitter.com/anywhere.js?id=aS9PTGGlzIbWailj7Qvvmw&amp;v=1" type="text/javascript"></script>
+	
+    </head>
+    <body>
+		<!-- load facebook sdk only once and as close as possible to the body tag-->
+		<div id="fb-root"></div>
+			<script>
+				window.fbAsyncInit = function() {
+				  FB.init({
+					appId      : '340304356076433', // App ID
+					status     : true, // check login status
+					cookie     : true, // enable cookies to allow the server to access the session
+					xfbml      : true  // parse XFBML
+				  });
+				};
+			
+				// Load the SDK Asynchronously
+				(function(d, s, id) {
+					var js, fjs = d.getElementsByTagName(s)[0];
+					if (d.getElementById(id)) return;
+					js = d.createElement(s); js.id = id;
+					js.src = "//connect.facebook.net/nl_NL/all.js#xfbml=1&appId=340304356076433";
+					fjs.parentNode.insertBefore(js, fjs);
+				}(document, 'script', 'facebook-jssdk'));
+			</script>
+	
+	<!-- HOMESCREEN -->
+    <div data-role="page" data-theme="a" id="index">
+        <div data-role="header" data-position="inline">
+			<h1 id="homescreen_status">hAPPy</h1>
+			<a href="#userguide" data-role="button" data-transition="slidedown" data-icon="info" class="ui-btn-left" id="guide_button">About</a>
+			<a href="#settings" data-role="button" data-icon="gear" class="ui-btn-right" data-transition="slidedown" id="settings_button">Settings</a>
+        </div>
+
+        <div id='index_page_content' data-role="content">
+			<div class="ui-grid-b">
+				<div class="ui-block-a"></div>
+				<div class="ui-block-b">
+					<div id="drop_results" class="ui-widget-header ui-bar ui-bar-b">
+						<p>Get the results!</p>
+					</div>
+				</div>
+				<div class="ui-block-c"></div>
+			</div>
+				
+			<div class="ui-grid-b">
+				<div class="ui-block-a">
+					<div id="drop_gts" class="ui-widget-header ui-bar ui-bar-b">
+						<p>Going to sleep?</p>
+					</div>
+				</div>
+				<div class="ui-block-b"></div>
+				<div class="ui-block-c">
+					<div id="drop_wu" class="ui-widget-header ui-bar ui-bar-b">
+						<p>Waking up?</p>
+					</div>
+				</div>
+			</div>
+				
+			<div id="selector_startpage" class="ui-block-b ui-widget-content ui-bar ui-bar-a" style='width: 18%'>
+				<p id='txt_selector'>Drag</p>
+			</div>
+	    </div>
+	</div>
+	
+	
+	<!-- GOING TO SLEEP SCREEN -->
+	<div data-role="page" data-theme="b" id="goingtosleep">
+	    <div data-role="header">
+			<h1>Going to sleep</h1>
+			<a href="#index" class="ui-btn-left" data-icon="home">Back</a>
+        </div>
+
+        <div data-role="content">
+			<!-- MOOD -->
+			<div data-role="collapsible" data-mini="true" data-collapsed="true">
+				<h3><strong>Your mood today</strong></h3>
+				<div id="gts_mood_radio_buttons" data-role="controlgroup" data-type="vertical" data-mini="true" style="text-align: center;">
+					<label><input type="radio" name="radio-choice-1" id="gts_mood0" value="0"/>Horrible</label>
+				
+					<label><input type="radio" name="radio-choice-1" id="gts_mood1" value="1"/>Bad</label>
+				
+					<label><input type="radio" name="radio-choice-1" id="gts_mood2" value="2" checked="checked"/>Average</label>
+				
+					<label><input type="radio" name="radio-choice-1" id="gts_mood3" value="3"/>Good</label>
+						
+					<label><input type="radio" name="radio-choice-1" id="gts_mood4" value="4"/>Excellent</label>
+				</div>
+			</div>
+		
+			<!-- Social -->
+			<div data-role="collapsible" data-mini="true" data-collapsed="true">
+				<h3><strong>Social</strong></h3>
+				<fieldset class="ui-grid-a">
+					<div class="ui-block-a">
+						<div id="gts_soc_qual_radio_buttons" data-role="controlgroup" data-type="vertical" data-mini="true" style="text-align: center;">
+							<label><strong>Quality</strong></label>
+							<label><input type="radio" name="radio-choice-2" id="gts_soc_qual0" value="0"/>Horrible</label>
+						
+							<label><input type="radio" name="radio-choice-2" id="gts_soc_qual1" value="1"/>Bad</label>
+						
+							<label><input type="radio" name="radio-choice-2" id="gts_soc_qual2" value="2" checked="checked"/>Average</label>
+						
+							<label><input type="radio" name="radio-choice-2" id="gts_soc_qual3" value="3"/>Good</label>
+								
+							<label><input type="radio" name="radio-choice-2" id="gts_soc_qual4" value="4"/>Excellent</label>
+						</div>
+					</div>
+				
+					<div class="ui-block-b">
+						<div id="gts_soc_quan_radio_buttons" data-role="controlgroup" data-type="vertical" data-mini="true" style="text-align: center;">
+							<label><strong>Quantity</strong></label>
+							<label><input type="radio" name="radio-choice-3" id="gts_soc_quan0" value="0"/>None</label>
+						
+							<label><input type="radio" name="radio-choice-3" id="gts_soc_quan1" value="1"/>Not much</label>
+						
+							<label><input type="radio" name="radio-choice-3" id="gts_soc_quan2" value="2" checked="checked"/>Average</label>
+						
+							<label><input type="radio" name="radio-choice-3" id="gts_soc_quan3" value="3"/>A little</label>
+								
+							<label><input type="radio" name="radio-choice-3" id="gts_soc_quan4" value="4"/>A lot</label>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		
+			<!-- Stress -->
+			<div data-role="collapsible" data-mini="true" data-collapsed="true">
+				<h3><strong>Stress</strong></h3>
+				<fieldset class="ui-grid-a">
+					<div class="ui-block-a">
+						<div id="gts_stress_work_radio_buttons" data-role="controlgroup" data-type="vertical" data-mini="true" style="text-align: center;">
+							<label><strong>Work</strong></label>
+							<label><input type="radio" name="radio-choice-4" id="gts_stress_work0" value="0"/>None</label>
+						
+							<label><input type="radio" name="radio-choice-4" id="gts_stress_work1" value="1"/>Not much</label>
+						
+							<label><input type="radio" name="radio-choice-4" id="gts_stress_work2" value="2" checked="checked"/>Average</label>
+						
+							<label><input type="radio" name="radio-choice-4" id="gts_stress_work3" value="3"/>A little</label>
+								
+							<label><input type="radio" name="radio-choice-4" id="gts_stress_work4" value="4"/>A lot</label>
+						</div>
+					</div>
+					
+					<div class="ui-block-b">
+						<div id="gts_stress_nonwork_radio_buttons" data-role="controlgroup" data-type="vertical" data-mini="true" style="text-align: center;">
+							<label><strong>Non-work</strong></label>
+							<label><input type="radio" name="radio-choice-5" id="gts_stress_nonwork0" value="0"/>None</label>
+						
+							<label><input type="radio" name="radio-choice-5" id="gts_stress_nonwork1" value="1"/>Not much</label>
+						
+							<label><input type="radio" name="radio-choice-5" id="gts_stress_nonwork2" value="2" checked="checked"/>Average</label>
+						
+							<label><input type="radio" name="radio-choice-5" id="gts_stress_nonwork3" value="3"/>A little</label>
+								
+							<label><input type="radio" name="radio-choice-5" id="gts_stress_nonwork4" value="4"/>A lot</label>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		
+			<!-- Recreational time -->
+			<div class="recreational_time">
+				<p><strong>Recreational time</strong></p>
+				<fieldset class="ui-grid-a">
+					<div class="ui-block-a">
+						<center><label "for="recreational_hours"><strong>nr of hours</strong></label></center>
+					</div>
+					<label></label>
+					<div class="ui-block-b"></div>
+					</fieldset>
+					<fieldset class="ui-grid-a">
+					<div class="ui-block-a">
+						<input type="number" name="recreational_hours" id="recreational_hours" min="0" max="24" step = "0.1" value="0" data-mini="true"/>
+					</div>
+					<div class="ui-block-b"><label><input type="checkbox" id="gts_enough_rec" data-mini="true"/>Enough?</label></div>
+				</fieldset>
+			</div>
+		
+			<!-- Alcohol/Caffeine -->
+			<div class="alcohol_caffeine">
+				<p><strong>Alcohol/caffeine last 3 hours?</strong></p>
+				<fieldset class="ui-grid-a">
+					<div class="ui-block-a"><label><input type="checkbox" id="gts_alcohol" data-mini="true"/>Alcohol</label></div>
+					<div class="ui-block-b"><label><input type="checkbox" id="gts_caffeine" data-mini="true"/>Caffeine</label></div>
+				</fieldset>
+			</div>
+		
+			<!-- Location -->
+			<div class="location">
+				<p><strong>Add a location</strong></p>
+				<select class="centered_layout" name="select-location" id="select-location" data-mini="true" data-native-menu="false" style="width: 100%"></select>
+				<a href="#addlocation" data-role="button" data-mini="true" data-icon="check">Add new location</a>
+			</div>
+        </div>
+
+        <div data-role="footer" data-inline="true">
+			<h1>hAPPy</h1>
+			<a href="#" class="ui-btn-left" data-transition="flow" id="goingtosleep_btn_goodnight" data-icon="email">Good night!</a>
+        </div>
+	</div>
+	
+	
+	<!-- WAKING UP SCREEN -->
+	<div data-role="page" data-theme="b" id="wakingup">
+	    <div data-role="header">
+			<h1>Waking up</h1>
+			<a href="#index" class="ui-btn-left" data-icon="home">Back</a>
+        </div>
+
+        <div data-role="content">
+			<label for="wu_mood"><strong id="wu_mood_label">How is your mood?</strong></label>
+			<select class="centered_layout" name="wu_mood" id="wu_mood" data-mini="true" data-native-menu="false" style="width: 100%">
+				<option value=0>Horrible</option>
+				<option value=1>Bad</option>
+				<option selected value=2>Average</option>
+				<option value=3>Good</option>
+				<option value=4>Excellent</option>
+			</select>
+				
+			<label for="wu_sleep_qual"><strong id="wu_sleep_qual_label">How well did you sleep?</strong></label>
+			<select class="centered_layout" name="wu_sleep_qual" id="wu_sleep_qual" data-mini="true" data-native-menu="false" style="width: 100%">
+				<option value=0>Horrible</option>
+				<option value=1>Bad</option>
+				<option selected value=2>Average</option>
+				<option value=3>Good</option>
+				<option value=4>Excellent</option>
+			</select>
+				
+			<div data-role="fieldcontain" style="text-align: center">
+				<fieldset class="ui-grid-b">
+					<div class="ui-block-a"></div>
+					<div class="ui-block-b">
+						<label><input type="checkbox" name="enough_sleep" id="enough_sleep" data-highlight="true" data-mini="true" data-inline="true"/>Got enough sleep?</label>
+					</div>
+					<div class="ui-block-c"></div>
+				</fieldset>
+			</div>
+        </div>
+
+        <div data-role="footer" data-inline="true">
+			<h1>hAPPy</h1>
+            <a href="#" class="ui-btn-left" id="wakingup_btn_goodmorning" data-transition="flow" data-icon="phone-touch">Good morning!</a>
+        </div>
+	</div>
+	
+	
+	<!-- GET THE RESULTS SCREEN -->
+	<div data-role="page" data-theme="b" id="gettheresults">
+	    <div data-role="header">
+		<h1>Results</h1>
+			<a href="#index" class="ui-btn-left" data-icon="home" >Back</a>
+		</div>
+		
+		<div data-role="content">
+			<div class="ui-grid-b">
+				<div class="ui-block-a"></div>
+				<div class="ui-block-b"><div id="gtr_moodpies_uibar" class="ui-bar ui-bar-b" style="height:80px"><p>MoodPies</p></div></div>
+				<div class="ui-block-c"></div>
+			</div>
+			
+			<div class="ui-grid-b">
+				<div class="ui-block-a"><div id="gtr_moodvariations_uibar" class="ui-bar ui-bar-b" style="height:80px"><p>Mood<br>Variations</p></div></div>
+				<div class="ui-block-b"><div id="gtr_center_uibar" class="ui-bar ui-bar-a" style="height:80px"><p>Tap a box</p></div></div>
+				<div class="ui-block-c"><div id="gtr_search_uibar" class="ui-bar ui-bar-b" style="height:80px"><p>Search</p></div></div>
+			</div>
+			
+			<div class="ui-grid-b">
+				<div class="ui-block-a"></div>
+				<!--<div class="ui-block-b"><div id="gtr_overview_uibar" class="ui-bar ui-bar-b" style="height:80px">Overview</div></div>-->
+				<div class="ui-block-b"><div id="gtr_statistics_uibar" class="ui-bar ui-bar-b" style="height:80px"><p>Averages</p></div></div>
+				<div class="ui-block-c"></div>
+			</div>
+		</div>
+	</div>
+	
+	<div data-role="page" data-theme="b" id="statisticspage">
+	    <div data-role="header">
+			<h1>Averages</h1>
+			<a href="#gettheresults" class="ui-btn-left" data-icon="home">Back</a>
+		</div>
+		<div data-role="content">
+			<ul data-role="listview" data-theme="d" data-divider-theme="d">
+				<li data-role="list-divider"><strong id='range_text'></strong></li>
+				<li id='averages_listitem'></li>
+				<li data-role="list-divider"><strong id='locations_text'></strong></li>
+				<li id='locations_slept_listitem'></li>
+			</ul>
+		</div>
+	</div>
+	
+	<!--MOODPIES-->
+	<div data-role="page" data-theme="b" id="moodpies_main">
+	    <div data-role="header">
+			<h1>MoodPies</h1>
+			<a href="#gettheresults" class="ui-btn-left" data-transition="slideup" data-icon="home">Back</a>
+			<div data-role = "navbar">
+				<ul>
+					<li><a href="#wu_moodpie" data-role="tab" data-transition="slide" data-direction="reverse">Waking up</a></li>
+					<li><a href="#moodpies_main" class="ui-btn-active ui-state-persist" data-role="tab">MoodPies Main</a></li>
+					<li><a href="#gts_moodpie" data-role="tab" data-transition="slide">Going to sleep</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<div data-role="content">
+			<p><strong>Moodpies show you which mood you were in the most when waking up or when going to sleep.
+			Use the tabs to check your moods. Click the pie to get details.</strong></p>
+		</div>
+	</div>
+	
+	<div data-role="page" data-theme="b" id="gts_moodpie">
+	    <div data-role="header">
+			<h1>Going to sleep moodpie</h1>
+			<a href="#gettheresults" class="ui-btn-left" data-transition="slideup" data-icon="home">Back</a>
+			<div data-role = "navbar">
+				<ul>
+					<li><a href="#wu_moodpie"  data-role="tab" data-transition="slide" data-direction="reverse">Waking up</a></li>
+					<li><a href="#moodpies_main" data-role="tab" data-transition="slide" data-direction="reverse">MoodPies Main</a></li>
+					<li><a href="#gts_moodpie" class="ui-btn-active ui-state-persist" data-role="tab">Going to sleep</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="container_gts_moodpie" class="moodpies" data-role="content"></div>	
+	</div>
+	
+	<div data-role="page" data-theme="b" id="wu_moodpie">
+	    <div data-role="header">
+			<h1>Waking up moodpie</h1>
+			<a href="#gettheresults" class="ui-btn-left" data-transition="slideup" data-icon="home">Back</a>
+			<div data-role = "navbar">
+				<ul>
+					<li><a href="#wu_moodpie" class="ui-btn-active ui-state-persist" data-role="tab">Waking up</a></li>
+					<li><a href="#moodpies_main" data-role="tab" data-transition="slide">MoodPies Main</a></li>
+					<li><a href="#gts_moodpie" data-role="tab" data-transition="slide">Going to sleep</a></li>
+				</ul>
+			</div>
+		</div>
+		<div id="container_wu_moodpie" class="moodpies" data-role="content"></div>
+	</div>
+	
+	<!-- MOODVARIATION -->
+	<div data-role="page" data-theme="b" id="moodvariation">
+	    <div data-role="header">
+			<h1>MoodVariation</h1>
+			<a href="#gettheresults" class="ui-btn-left" data-transition="slide" data-icon="home">Back</a>
+		</div>
+		
+		<div data-role="content">
+			<div id="confirm_box">
+				<div class="message"><font color='gray'><strong id='warning_msg'></strong></font></div>
+				<a href="#" data-role='button' id='yes_btn_moodvar'>Yes</a>
+				<a href="#" data-role='button' id='no_btn_moodvar'>No</a>
+			</div>
+			
+			<div id="container_moodvariation" class="moodvariation"></div>
+			
+		</div>
+	</div>
+	
+	<!-- TEST PAGE -->
+	<div data-role="page" data-theme="b" id="testpage">
+	    <div data-role="header">
+			<h1>Testpage</h1>
+			<a href="#gettheresults" class="ui-btn-left" data-transition="slideup" data-direction="reverse" data-icon="home">Back</a>
+		</div>
+		
+		<div data-role="content">
+			<a href="#" data-role="button" id="load_testdata" data-icon="home">Load testdata</a>
+		</div>
+	</div>
+	
+	<!-- TWITTER-->
+	<div data-role="page" data-theme="b" id="tweet_dialog">
+	    <div data-role="header">
+			<h1>Social media</h1>
+			<a href="#index" class="ui-btn-left" data-icon="home">Skip</a>
+			<div data-role = "navbar">
+				<ul>
+					<li><a href="#facebook" data-role="tab" data-transition="slide" data-direction="reverse">Facebook</a></li>
+					<li><a href="#tweet_dialog" class="ui-btn-active ui-state-persist" data-role="tab">Twitter</a></li>
+				</ul>
+			</div>
+        </div>
+
+        <div data-role="content" id="content_tweet_dialog" class="content_tweet_dialog_class">			
+			<textarea id="twttr_txtarea" rows="3" cols="20"></textarea>
+        </div>
+		<div data-role="footer">
+			<h1>hAPPy</h1>
+			<div id="tweetBtn" class="ui-btn-left">
+				<a class="twitter-share-button" href="http://twitter.com/share" data-url="default.com" data-text="Tweet something" data-count="none">Tweet</a>
+				<script>
+					!function(d,s,id){
+						var js,fjs=d.getElementsByTagName(s)[0];
+						if(!d.getElementById(id)){
+							js=d.createElement(s);
+							js.id=id;
+							js.src="//platform.twitter.com/widgets.js";
+							fjs.parentNode.insertBefore(js,fjs);
+						}
+					}(document,"script","twitter-wjs");
+				</script>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- Facebook-->
+	<div data-role="page" data-theme="b" id="facebook">
+	    <div data-role="header">
+			<h1>Social media</h1>
+			<a href="#index" class="ui-btn-left" data-icon="home">Skip</a>
+			<div data-role = "navbar">
+				<ul>
+					<li><a href="#facebook" class="ui-btn-active ui-state-persist" data-role="tab">Facebook</a></li>
+					<li><a href="#tweet_dialog" data-transition="slide" data-role="tab">Twitter</a></li>
+				</ul>
+			</div>
+        </div>
+
+        <div data-role="content" id="facebook_content">
+			<textarea id="fb_txtarea" rows="3" cols="20"></textarea>
+			
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a">
+					<a href="#" id="setstatus_btn_fb" data-role="button" data-mini="true">Set status</a>
+				</div>
+				<div class="ui-block-b">
+					<a href="#" id="clearmsg_btn_fb" data-role="button" data-mini="true">Clear</a>
+				</div>
+			</fieldset>
+			<!--<center>
+			</center>-->
+        </div>
+		<div data-role="footer">
+			<h1>hAPPy</h1>
+			<div class="ui-btn-left"><fb:login-button scope="publish_stream"></fb:login-button></div>
+		</div>
+	</div>
+	
+	<!-- SETTINGS PAGE -->
+	<div data-role="page" data-theme="b" id="settings">
+	    <div data-role="header">
+			<h1>Settings</h1>
+			<a href="#index" class="ui-btn-left" data-icon="home">Back</a>
+        </div>
+
+        <div data-role="content">	
+        	<center>
+				<label><input type="checkbox" id="show_socmedia_wu_gts" data-mini="true"/>Show social media after "Going to sleep" and "Waking up"?</label>
+			</center>
+        </div>
+		<div data-role="footer">
+			<h1>hAPPy</h1>
+			<a href="#index" class="ui-btn-left" data-icon="check" id="save_settings_btn">Save</a>
+		</div>
+	</div>
+	
+	<!-- USER GUIDE/ABOUT PAGE -->
+	<div data-role="page" data-theme="b" id="userguide">
+	    <div data-role="header">
+			<h1>About</h1>
+			<a href="#index" class="ui-btn-left" data-icon="home">Back</a>
+        </div>
+
+        <div data-role="content">	
+        	<p><strong>
+				Welcome to hAPPy, an app to track various parameters of your life.<br><br>
+				If you would like to be able to share these parameters, go to the settings page, check the checkbox and press "Save".<br><br>
+				
+				When going to bed, you can drag the black button to the "Going to sleep?"-button on the homepage. If you don't want to drag, simply
+				tap the black button and then you can just tap the different buttons to change pages.<br>
+				Fill in all the parameters and click the "Good night!"-button.<br>
+				Depending on the settings you have chosen, you will either go back to the homepage or you will go to the
+				social media page. If you go to the social media page and you're done sharing or if you don't want to share anything this time, click the "Skip"-button.<br><br>
+				
+				When waking up, tap (or drag the black button to) the "Waking up?"-button. Fill in the parameters again and then click the "Good morning!"-button.<br><br>
+				
+				When you have collected data, you can view various results by going to the "Get the results!"-page.<br><br>
+				
+				Some pages have an "info"-button at the top right corner which provides information for some pages (only where necessary). <br><br>
+				
+				It is recommended to use this app with a smartphone, but it should also work with regular computers and tablets as long as you have a browser which supports HTML5.<br>
+			</strong></p>
+        </div>
+		<div data-role="footer">
+			<h1>hAPPy</h1>
+		</div>
+	</div>
+	
+	<!-- SEARCH PAGE -->
+	<div data-role="page" data-theme="b" id="searchpage">
+	    <div data-role="header">
+			<h1>Search</h1>
+			<a href="#gettheresults" class="ui-btn-left" data-transition="slide" data-direction="reverse" data-icon="home">Back</a>
+			<a href="#info_searchpage" class="ui-btn-right" data-transition="slideup" data-direction="reverse" data-icon="info">Info</a>
+			<div data-role = "navbar">
+				<ul>
+					<li><a href="#searchpage" class="ui-btn-active ui-state-persist" data-role="tab" >Search</a></li>
+					<li><a href="#viewinterval" id="viewinterval_tab" data-role="tab" data-transition="slide">View</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<div data-role="content">
+			<label><input type="checkbox" id="only_one_day_checkbox" data-mini="true"/>Only search for one day</label>
+			<br>
+			<center>
+				<strong id="start_date_label">Start date</strong>
+				<input id="start_date_search" name="start_date_search" style="display:none"/>
+				<br>
+				
+				<div id="hider"> <!--fadeIn and fadeOut scroller-->
+					<br>
+					<strong>End date</strong>
+					<input id="end_date_search" name="end_date_search" style="display:none"/>
+					<br>
+				</div>
+			</center>
+			
+			<br>
+			<a href="#" id="show_search_btn" data-role="button" data-mini="true" data-icon="arrow-r">View data</a>
+			<br>
+			<a href="#" id="set_interval_btn" data-role="button" data-mini="true" data-icon="check">Set interval</a>
+			<br>
+			<a href="#" id="set_entire_interval_btn" data-role="button" data-mini="true" data-icon="check">Set default interval</a>
+		</div>
+	</div>
+	
+	<!--INFO SEARCHPAGE-->
+	<div data-role="page" data-theme="b" id="info_searchpage">
+	    <div data-role="header">
+			<h1>Search</h1>
+			<a href="#searchpage" class="ui-btn-left" data-transition="slideup" data-icon="home">Back</a>
+		</div>
+		
+		<div data-role="content">
+			<strong>
+				<p>
+					Use the datepicker(s) to enter date(s). If you just want to see all the data in the interval
+					you picked, tap "View data".<br>
+					If you want to see statistics and graphs about this interval,
+					tap "Set interval" and use the "Back"-button to go back to the results page. There you can select
+					what you would like to see.<br>
+					You can also get statistics and graphs about all the data in storage by tapping "Set default interval".<br>
+				</p>
+			</strong>
+		</div>
+		<div data-role="footer">
+			<h1>hAPPy</h1>
+		</div>
+	</div>
+	
+	
+	<div data-role="page" data-theme="b" id="viewinterval">
+	    <div data-role="header">
+			<h1>View data</h1>
+			<a href="#gettheresults" class="ui-btn-left" data-transition="slide" data-direction="reverse" data-icon="home">Back</a>
+			<div data-role = "navbar">
+				<ul>
+					<li><a href="#searchpage" data-role="tab" data-transition="slide" data-direction="reverse">Search</a></li>
+					<li><a href="#viewinterval" class="ui-btn-active ui-state-persist" data-role="tab">View</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<div id="viewinterval_content" data-role="content">
+			<ul id="search_listview" data-role="listview" data-theme="d" data-divider-theme="d"></ul>
+		</div>
+	</div>
+	
+	<div data-role="page" data-theme="b" id="addlocation">
+	    <div data-role="header">
+			<h1>Location</h1>
+			<a href="#goingtosleep" class="ui-btn-left" data-icon="home">Back</a>
+			<a href="#addlocation_info" class="ui-btn-right" data-icon="info" data-transition="slidedown">Info</a>
+		</div>
+		
+		<div data-role="content">
+			<li data-role="fieldcontain">
+				
+				<ul data-role="listview" id="locations_list"></ul>
+				<br><br>
+				<label class='center_label'><strong>Enter a new location and press add</strong></label>
+				<input type="text" name="new_location" id="new_location" value="" style='width:100%;'/><br><br>
+				<a href="#" data-role="button" data-mini="true" id="addbtn">Add</a><br>
+				<a href="#" data-role="button" data-mini="true" id="clearlist">Clear all locations</a>
+			</li>
+		</div>
+		<div data-role="footer">
+			<h1>hAPPy</h1>
+		</div>
+	</div>
+	
+	<div data-role="page" data-theme="b" id="addlocation_info">
+	    <div data-role="header">
+			<h1>Add location info</h1>
+			<a href="#addlocation" class="ui-btn-left" data-icon="home">Back</a>
+		</div>
+		
+		<div data-role="content">
+			<p><strong>Fill in a location (one word) and click add. When finished, return by clicking the "Back"-button.</strong></p>
+		</div>
+	</div>
+    </body>
+</html>
