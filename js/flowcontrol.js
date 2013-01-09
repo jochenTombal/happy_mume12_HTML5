@@ -18,6 +18,36 @@ function background_awake(){
 	$('#index').css('background-size','100% 100%'); 
 }
 
+// Change page to get the results
+function change_to_results(){
+	$.mobile.changePage('#gettheresults');
+}
+
+// Change page to going to sleep
+function change_to_gts(){
+	var userSleep = isUserSleeping();
+			
+	// Check if user was already sleeping (user shouldn't be here!)
+	if(userSleep == 1){
+		alert("You are already sleeping!");
+		
+	} else{            
+		$.mobile.changePage('#goingtosleep');
+	}
+}
+
+// Change page to waking up
+function change_to_wu(){
+	var userSleep = isUserSleeping();
+        
+	if(userSleep == 0 || userSleep == null){
+		alert("You are already awake!");
+		
+	} else{           
+		$.mobile.changePage('#wakingup');
+	}
+}
+
 // Check if user is sleeping by getting the userSleeping-boolean from localstorage
 function isUserSleeping(){
     if (typeof(localStorage) == 'undefined') {

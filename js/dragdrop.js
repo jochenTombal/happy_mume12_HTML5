@@ -5,36 +5,6 @@ jQuery.fn.horizontal_center_drag = function () {
     return this;
 }
 
-// Change page to get the results
-function change_to_results(){
-	$.mobile.changePage('#gettheresults');
-}
-
-// Change page to going to sleep
-function change_to_gts(){
-	var userSleep = isUserSleeping();
-			
-	// Check if user was already sleeping (user shouldn't be here!)
-	if(userSleep == 1){
-		alert("You are already sleeping!");
-		
-	} else{            
-		$.mobile.changePage('#goingtosleep');
-	}
-}
-
-// Change page to waking up
-function change_to_wu(){
-	var userSleep = isUserSleeping();
-        
-	if(userSleep == 0 || userSleep == null){
-		alert("You are already awake!");
-		
-	} else{           
-		$.mobile.changePage('#wakingup');
-	}
-}
-
 // Center dragable div when orientation changes
 $(window).bind( 'orientationchange', function(e){
 	$('#selector_startpage').horizontal_center_drag();
